@@ -78,7 +78,7 @@ function BillingSystem() {
       return;
     }
     try {
-      const res = await axios.get(`http://127.0.0.1:5001/search_customer?query=${query}`);
+      const res = await axios.get(`https://rk-billing-backend.onrender.com/search_customer?query=${query}`);
       setCustomerSuggestions(res.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
@@ -90,7 +90,7 @@ function BillingSystem() {
     setCustomer({ name: cust.name, contact: cust.contact });
     setCustomerSuggestions([]);
     try {
-      const res = await axios.get(`http://127.0.0.1:5001/get_customer_history/${cust.id}`);
+      const res = await axios.get(`https://rk-billing-backend.onrender.com/get_customer_history/${cust.id}`);
       setVisitHistory(res.data.visits || []);
     } catch (error) {
       console.error("Error fetching history:", error);
@@ -103,7 +103,7 @@ function BillingSystem() {
       return;
     }
     try {
-      const res = await axios.post("http://127.0.0.1:5001/add_customer", customer);
+      const res = await axios.post("https://rk-billing-backend.onrender.com/add_customer", customer);
       alert(res.data.message);
       setCustomerId(res.data.id);
       setVisitHistory([]);
@@ -146,7 +146,7 @@ function BillingSystem() {
     setDueAmount(due);
 
     try {
-      await axios.post("http://127.0.0.1:5001/add_visit", {
+      await axios.post("https://rk-billing-backend.onrender.com/add_visit", {
         customer_id: customerId,
         purchased_items: purchasedItems,
         paid_amount: paid,
@@ -154,7 +154,7 @@ function BillingSystem() {
       });
 
       alert("Data saved successfully!");
-      const res = await axios.get(`http://127.0.0.1:5001/get_customer_history/${customerId}`);
+      const res = await axios.get(`https://rk-billing-backend.onrender.com/get_customer_history/${customerId}`);
       setVisitHistory(res.data.visits);
     } catch (error) {
       console.error("Error saving data:", error);
@@ -167,7 +167,7 @@ function BillingSystem() {
       return;
     }
     try {
-      const response = await axios.get(`http://127.0.0.1:5001/generate_invoice/${customerId}`, {
+      const response = await axios.get(`https://rk-billing-backend.onrender.com/generate_invoice/${customerId}`, {
         responseType: "blob"
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
